@@ -1,6 +1,8 @@
-# Welcome to Remix!
+# Python (Pyodide) inside a remix app (sample code)
 
-- [Remix Docs](https://remix.run/docs)
+## Note: This code base is built on top of the standard Remix template
+
+
 
 ## Development
 
@@ -27,12 +29,3 @@ npm start
 ```
 
 Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
