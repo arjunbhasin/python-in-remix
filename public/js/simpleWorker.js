@@ -1,8 +1,3 @@
-// Function to send the output to the main thread
-function printOutput(s) {
-    postMessage({type: 'OUTPUT', message: s});
-}
-
 // Function to initialize the worker
 async function init() {
     // Check if Pyodide is already loaded
@@ -29,36 +24,9 @@ async function init() {
             
             // Set global variables for use in Python code
             self.pyodide.globals.set('pyData', pyData);
-            self.pyodide.globals.set('printOutput', printOutput);
             
             // Notify main thread that execution is starting
             postMessage({type: 'DONE', message: 'FALSE'});
-            
-            // Set up Python environment with custom stdout/stderr and dummy document object
-            self.pyodide.runPython(`
-                import io
-                import js
-                import sys
-                from js import printOutput
-
-                class Dud:
-                    def __init__(self, *args, **kwargs) -> None:
-                        return
-
-                    def __getattr__(self, __name: str):
-                        return Dud
-
-                js.document = Dud()
-                
-                class JsOutput:
-                    def write(self, s):
-                        printOutput(s)
-                    def flush(self):
-                        pass
-
-                sys.stdout = JsOutput()
-                sys.stderr = JsOutput()
-            `);
             
             // Log the Python code being executed
             console.log('Running Python code...');
